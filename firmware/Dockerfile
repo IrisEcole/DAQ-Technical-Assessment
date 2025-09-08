@@ -22,6 +22,7 @@ RUN git clone --recurse-submodules https://github.com/xR3b0rn/dbcppp.git /tmp/db
 COPY solution/ ./solution/
 COPY dbc-files/ ./dbc-files/
 COPY dump.log ./dump.log
+COPY tests/ ./tests/
 
 # Create a clean build directory and build
 RUN mkdir -p /app/build
