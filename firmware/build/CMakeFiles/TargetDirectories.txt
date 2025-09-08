@@ -1,0 +1,6 @@
+/home/risd/DAQ-Technical-Assessment/firmware/build/CMakeFiles/clean-all.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/CMakeFiles/edit_cache.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/CMakeFiles/rebuild_cache.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/solution/CMakeFiles/answer.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/solution/CMakeFiles/edit_cache.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/solution/CMakeFiles/rebuild_cache.dir
