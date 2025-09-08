@@ -8,7 +8,7 @@
 #include <dbcppp/Network.h> 
 
 
-// Helper: Convert hex string (from CAN data) to bytes
+// Helper: Convert hex string to bytes
 std::vector<uint8_t> hexStringToBytes(const std::string& hex) {
     std::vector<uint8_t> bytes;
     for (size_t i = 0; i + 1 < hex.length(); i += 2) {
@@ -40,7 +40,7 @@ int main() {
         tractiveDBCs.push_back(dbcppp::INetwork::LoadDBCFromIs(f));
     }
 
-    //Load dumb log from relative path, opens output text right there
+    //Load dump log from relative path, opens output text right there
     std::ifstream logFile("../dump.log");
     std::ofstream outFile("output.txt");
     if (!logFile.is_open()) { std::cerr << "Failed to open dump.log\n"; return 1; }

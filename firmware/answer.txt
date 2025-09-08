@@ -2,7 +2,30 @@ Use this file to write your answer to Stage 2 of the firmware tasks.
 
 CAN
 Q1:
+As described in the CAN basics of INtroduction to CAN bus and can frames can is chosen for the robustness of the stadnard.
+With further ressearch I come up with:
+Adtvantages:
+-Built in Error detection /retransmision
+-Asynchronous , high priority takes precendence
+-Less wiring (simple twiser pair) compare to USB hub, PCIE board level (SPI also simple though)
+-Broadcast,
+Disadvantges
+-Low data rate compare to USB or PCIE
+-Limitaed payload size (8 byte normal can 64 byte CAN FD)(USB and PCIE are larger)
+-Complex message management (this whole assignment)
+
 
 Q2:
+Embeded system: Error handling and asynchronous where errors and reactivtiy matter 
+Powertrain: Same, real time sensors for the safety required for power management
+DAQ: CAN broadcast ability means senssors can share wires
+
+
 
 STM32 Chip Selection
+The STM32H735xG meets all the requirements expect the flash memory.
+
+For the A/D converter it has two of 16 bit resolution and a third of 12 bit resolution.
+It only has 1024kb of memoery but no chips with 3 can busees and at least 3/ad converted had more flash memory, and flash memory could be optimised by condensing the firmware.
+The chip has multiple package option so different physical size, from the smallest 0.35mm pitch to a the 24x 24 mm LQFP176.
+It nees a suply voltage of 1.62-3.6V with 150uA Run mode. It's stocked at 16.90 the unit but for 500 unit which would probably make it a bad purchasing decision for redback.I would keep looking at other chips that fit the description.
