@@ -23,6 +23,25 @@ Chatgpt helped with the tedious formating to outpul file (Full 6 for timestamp b
 Realised that for a working build we should not copy everything, only copied main dumplog and DBC files.
 ALso orgnanised it to work with a build folder and the relative paths from earlier.
 
+
+Task 2:
+Actually could not find a chip that fit everything; potentially missunderstanding the flash mem requirement ?
+
+Task 3:
+Broke apart parseCanline and hextobyte to test them.
+
+To test 
+Proper extraction of sensor values
+Handling of multiple DBC files defining the same CAN ID
+
+It took a while to figure out how to test and link the dbcppp library to test parser in the test file
+
+I mainly test my helper functions then tested my parser with the known input and outputs
+Also strugled when I broke apart parser and main, cpp files don't like including other cpp file, that's why we have parser.hpp
+How to run:
+cmake ..
+maje -j
+./test_parser
 ## Spyder
 
 ## Cloud

@@ -6,16 +6,7 @@
 #include <iomanip>
 #include <sstream>
 #include <dbcppp/Network.h> 
-
-
-// Helper: Convert hex string to bytes
-std::vector<uint8_t> hexStringToBytes(const std::string& hex) {
-    std::vector<uint8_t> bytes;
-    for (size_t i = 0; i + 1 < hex.length(); i += 2) {
-        bytes.push_back(static_cast<uint8_t>(std::stoul(hex.substr(i, 2), nullptr, 16)));
-    }
-    return bytes;
-}
+#include "parser.cpp"
 
 int main() {
     std::vector<std::unique_ptr<dbcppp::INetwork>> controlDBCs;
@@ -43,85 +34,74 @@ int main() {
     //Load dump log from relative path, opens output text right there
     std::ifstream logFile("../dump.log");
     std::ofstream outFile("output.txt");
+    
     if (!logFile.is_open()) { std::cerr << "Failed to open dump.log\n"; return 1; }
+    runParser(logFile, outFile, controlDBCs, sensorDBCs, tractiveDBCs);
 
-    std::string line;
-    while (std::getline(logFile, line)) {
-        if (line.empty()) continue;
+    std::cout << "Parsing complete. Output written to output.txt\n";
+    return 0;
+//     std::string line;
+//    while (std::getline(logFile, line)) {
+//     if (line.empty()) continue;
 
-        // Format in log: (timestamp) interface CANID#data
+//     // Use your helper instead of duplicating parsing logic
+//     CanFrame frame;
+//     try {
+//         frame = parseCanLine(line);
+//     } catch (const std::exception& e) {
+//         std::cerr << "Failed to parse line: " << e.what() << "\n";
+//         continue; // skip invalid lines safely
+//     }
 
-        // Extract timestamp
-        size_t tsStart = line.find('('), tsEnd = line.find(')');
-        if (tsStart == std::string::npos || tsEnd == std::string::npos) continue;
-        double timestamp = std::stod(line.substr(tsStart + 1, tsEnd - tsStart - 1));
+//     // Select correct DBCs based on interface
+//     std::vector<dbcppp::INetwork*> dbcs;
+//     if (frame.iface == "can0")
+//         for (auto& dbc : controlDBCs) dbcs.push_back(dbc.get());
+//     else if (frame.iface == "can1")
+//         for (auto& dbc : sensorDBCs) dbcs.push_back(dbc.get());
+//     else if (frame.iface == "can2")
+//         for (auto& dbc : tractiveDBCs) dbcs.push_back(dbc.get());
 
-        // Extract interface name 
-        size_t ifaceStart = tsEnd + 2, ifaceEnd = line.find(' ', ifaceStart);
-        std::string iface = line.substr(ifaceStart, ifaceEnd - ifaceStart);
+//     // Process the message using the DBCs
+//     for (auto dbc : dbcs) {
+//         if (!dbc) continue;
+//         for (const auto& msg : dbc->Messages()) {
+//             if (msg.Id() != frame.canId) continue;
 
-        // Extract CAN ID and data payload
-        size_t hashPos = line.find('#', ifaceEnd);
-        std::string canIdStr = line.substr(ifaceEnd + 1, hashPos - ifaceEnd - 1);
-        std::string dataStr = (hashPos + 1 < line.size()) ? line.substr(hashPos + 1) : "";
-        uint32_t canId = std::stoul(canIdStr, nullptr, 16);
-        std::vector<uint8_t> data = hexStringToBytes(dataStr);
+//             // Loop through all signals in the message
+//             for (const auto& sig : msg.Signals()) {
+//                 std::ios oldState(nullptr);
+//                 oldState.copyfmt(outFile);
+
+//                 outFile << std::fixed << std::setprecision(6)
+//                         << "(" << frame.timestamp << "): "
+//                         << sig.Name() << ": ";
+
+//                 outFile.copyfmt(oldState);
+
+//                 if (!frame.data.empty()) {
+//                     double value = sig.RawToPhys(sig.Decode(frame.data.data()));
+//                     if (value == static_cast<int64_t>(value)) {
+//                         outFile << static_cast<int64_t>(value) << '\n';
+//                     } else {
+//                         std::ostringstream oss;
+//                         oss << std::fixed << std::setprecision(6) << value;
+//                         std::string s = oss.str();
+//                         s.erase(s.find_last_not_of('0') + 1, std::string::npos);
+//                         if (s.back() == '.') s.pop_back();
+//                         outFile << s << '\n';
+//                     }
+//                 } else {
+//                     outFile << "<no data>\n";
+//                 }
+//             }
+//         }
+//     }
+// }
 
 
-        //Gets the DBC that have macthing
-        std::vector<dbcppp::INetwork*> dbcs;
-        if (iface == "can0") for (auto& dbc : controlDBCs) dbcs.push_back(dbc.get());
-        else if (iface == "can1") for (auto& dbc : sensorDBCs) dbcs.push_back(dbc.get());
-        else if (iface == "can2") for (auto& dbc : tractiveDBCs) dbcs.push_back(dbc.get());
-
-
-        for (auto dbc : dbcs) {
-            if (!dbc) continue;
-            //dbc->Messages() returns all the messages defined for that dbc
-            for (const auto& msg : dbc->Messages()) {
-                //If the can id for that message does not correspond to log go to the next msg
-                if (msg.Id() != canId) continue;
-
-                // Loop through all signals in the message
-                for (const auto& sig : msg.Signals()) {
-                    // Save current stream state
-                    std::ios oldState(nullptr);
-                    oldState.copyfmt(outFile);
-
-                    // Print timestamp in fixed-point format with 6 decimals
-                    outFile << std::fixed << std::setprecision(6)
-                            << "(" << timestamp << "): " << sig.Name() << ": ";
-
-                    // Restore previous state for signal value formatting
-                    outFile.copyfmt(oldState);
-
-                    // Decode signal value if data is available
-                    if (!data.empty()) {
-                        //Turns the data from log 
-                        double value = sig.RawToPhys(sig.Decode(data.data()));
-
-                        // Print integer if exact, otherwise trim trailing zeros for float
-                        if (value == static_cast<int64_t>(value)) {
-                            outFile << static_cast<int64_t>(value) << std::endl;
-                        } else {
-                            std::ostringstream oss;
-                            oss << std::fixed << std::setprecision(6) << value;
-                            std::string s = oss.str();
-                            s.erase(s.find_last_not_of('0') + 1, std::string::npos);
-                            if (s.back() == '.') s.pop_back();
-                            outFile << s << std::endl;
-                        }
-                    } else {
-                        //Else no data
-                        outFile << "<no data>" << std::endl;
-                    }
-                } 
-            } 
-        } 
-    } 
-
-    logFile.close();
-    outFile.close();
+//     logFile.close();
+//     outFile.close();
     std::cout << "Parsing complete. Output written to output.txt\n";
 
     return 0;

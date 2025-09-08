@@ -225,4 +225,6 @@ solution/CMakeFiles/answer.dir/main.cpp.o: \
  /usr/local/include/dbcppp/ValueEncodingDescription.h \
  /usr/local/include/dbcppp/Message.h \
  /usr/local/include/dbcppp/SignalGroup.h \
- /usr/local/include/dbcppp/EnvironmentVariable.h
+ /usr/local/include/dbcppp/EnvironmentVariable.h \
+ /home/risd/DAQ-Technical-Assessment/firmware/solution/parser.cpp \
+ /home/risd/DAQ-Technical-Assessment/firmware/solution/parser.hpp

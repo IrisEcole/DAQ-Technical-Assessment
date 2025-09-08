@@ -1,6 +1,17 @@
 /home/risd/DAQ-Technical-Assessment/firmware/build/CMakeFiles/clean-all.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/CMakeFiles/test_parser.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/CMakeFiles/test.dir
 /home/risd/DAQ-Technical-Assessment/firmware/build/CMakeFiles/edit_cache.dir
 /home/risd/DAQ-Technical-Assessment/firmware/build/CMakeFiles/rebuild_cache.dir
 /home/risd/DAQ-Technical-Assessment/firmware/build/solution/CMakeFiles/answer.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/solution/CMakeFiles/test.dir
 /home/risd/DAQ-Technical-Assessment/firmware/build/solution/CMakeFiles/edit_cache.dir
 /home/risd/DAQ-Technical-Assessment/firmware/build/solution/CMakeFiles/rebuild_cache.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/_deps/catch2-build/CMakeFiles/test.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/_deps/catch2-build/CMakeFiles/edit_cache.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/_deps/catch2-build/CMakeFiles/rebuild_cache.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/_deps/catch2-build/src/CMakeFiles/Catch2.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/_deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/_deps/catch2-build/src/CMakeFiles/test.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/_deps/catch2-build/src/CMakeFiles/edit_cache.dir
+/home/risd/DAQ-Technical-Assessment/firmware/build/_deps/catch2-build/src/CMakeFiles/rebuild_cache.dir

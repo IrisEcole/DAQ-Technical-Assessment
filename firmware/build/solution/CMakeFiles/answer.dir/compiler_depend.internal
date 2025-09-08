@@ -3,6 +3,8 @@
 
 solution/CMakeFiles/answer.dir/main.cpp.o
  /home/risd/DAQ-Technical-Assessment/firmware/solution/main.cpp
+ /home/risd/DAQ-Technical-Assessment/firmware/solution/parser.cpp
+ /home/risd/DAQ-Technical-Assessment/firmware/solution/parser.hpp
  /usr/include/alloca.h
  /usr/include/asm-generic/errno-base.h
  /usr/include/asm-generic/errno.h
